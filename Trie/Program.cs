@@ -15,17 +15,18 @@ namespace Trie
         // trie node 
         class TrieNode
         {
-            public TrieNode[] children = new TrieNode[ALPHABET_SIZE];
-
+            //public TrieNode[] children = new TrieNode[ALPHABET_SIZE];
+            public Dictionary<Char, TrieNode> children = new Dictionary<char, TrieNode>();
             // isEndOfWord is true if the node represents 
             // end of a word 
             public bool isEndOfWord;
-
+            public int weight;
             public TrieNode()
             {
                 isEndOfWord = false;
-                for (int i = 0; i < ALPHABET_SIZE; i++)
-                    children[i] = null;
+                weight = 0;
+                //for (int i = 0; i < ALPHABET_SIZE; i++)
+                    //children[i] = null;
             }
         };
 
@@ -42,14 +43,23 @@ namespace Trie
 
             TrieNode pCrawl = root;
 
+            //for (level = 0; level < length; level++)
+            //{
+            //    index = key[level] - 'a';
+            //    if (pCrawl.children[index] == null)
+            //        pCrawl.children[index] = new TrieNode();
+
+            //    pCrawl = pCrawl.children[index];
+            //}
+
             for (level = 0; level < length; level++)
             {
-                index = key[level] - 'a';
-                if (pCrawl.children[index] == null)
-                    pCrawl.children[index] = new TrieNode();
+                if (!pCrawl.children.ContainsKey(key[level]))
+                    pCrawl.children[key[level]] = new TrieNode();
 
-                pCrawl = pCrawl.children[index];
+                pCrawl = pCrawl.children[key[level]];
             }
+
 
             // mark last node as leaf 
             pCrawl.isEndOfWord = true;
@@ -64,14 +74,23 @@ namespace Trie
             int index;
             TrieNode pCrawl = root;
 
+            //for (level = 0; level < length; level++)
+            //{
+            //    index = key[level] - 'a';
+
+            //    if (pCrawl.children[index] == null)
+            //        return false;
+
+            //    pCrawl = pCrawl.children[index];
+            //}
+
+
             for (level = 0; level < length; level++)
             {
-                index = key[level] - 'a';
-
-                if (pCrawl.children[index] == null)
+                if (!pCrawl.children.ContainsKey(key[level]))
                     return false;
 
-                pCrawl = pCrawl.children[index];
+                pCrawl = pCrawl.children[key[level]];
             }
 
             return (pCrawl != null && pCrawl.isEndOfWord);
@@ -87,15 +106,24 @@ namespace Trie
             int index;
             TrieNode pCrawl = root;
 
+            //for (level = 0; level < length; level++)
+            //{
+            //    index = key[level] - 'a';
+
+            //    if (pCrawl.children[index] == null)
+            //        return;
+
+            //    pCrawl = pCrawl.children[index];
+            //}
+
             for (level = 0; level < length; level++)
             {
-                index = key[level] - 'a';
-
-                if (pCrawl.children[index] == null)
+                if (!pCrawl.children.ContainsKey(key[level]))
                     return;
 
-                pCrawl = pCrawl.children[index];
+                pCrawl = pCrawl.children[key[level]];
             }
+
             found.Add(key);
             searchNode(key, pCrawl);
 
@@ -104,21 +132,33 @@ namespace Trie
 
         private void searchNode(String builder, TrieNode node)
         {
-            for (int i = 0; i < ALPHABET_SIZE; i++)
+            //for (int i = 0; i < ALPHABET_SIZE; i++)
+            //{
+            //    if (node.children[i] != null)
+            //    {
+
+            //        if (node.children[i].isEndOfWord)
+            //        {
+            //            found.Add(builder + ((char)(i + 97)).ToString());
+            //            searchNode(builder + ((char)(i + 97)).ToString(), node.children[i]);
+            //        } else
+            //        {
+            //            searchNode(builder + ((char)(i + 97)).ToString(), node.children[i]);
+            //        }
+            //    }
+            //}
+            foreach (var item in node.children)
             {
-                if (node.children[i] != null)
+                if (item.Value.isEndOfWord)
                 {
-                    
-                    if (node.children[i].isEndOfWord)
-                    {
-                        found.Add(builder + ((char)(i + 97)).ToString());
-                        searchNode(builder + ((char)(i + 97)).ToString(), node.children[i]);
-                    } else
-                    {
-                        searchNode(builder + ((char)(i + 97)).ToString(), node.children[i]);
-                    }
+                    found.Add(builder + item.Key.ToString());
+                    searchNode(builder + item.Key.ToString(), item.Value);
+                } else
+                {
+                    searchNode(builder + item.Key.ToString(), item.Value);
                 }
             }
+
             return;
         }
 
@@ -158,6 +198,7 @@ namespace Trie
             for (i = 0; i < keys.Count; i++)
                 insert(keys[i]);
 
+            //keys = null;
             string line = "";
             found = new List<string>();
             do
