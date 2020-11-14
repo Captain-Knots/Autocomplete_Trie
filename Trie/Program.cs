@@ -10,7 +10,8 @@ namespace Trie
         // Alphabet size (# of symbols) 
         static readonly int ALPHABET_SIZE = 26;
 
-        private List<string> found;
+        //private List<string> found;
+        private Dictionary<string, int> found;
 
         // trie node 
         class TrieNode
@@ -71,7 +72,6 @@ namespace Trie
         {
             int level;
             int length = key.Length;
-            int index;
             TrieNode pCrawl = root;
 
             //for (level = 0; level < length; level++)
@@ -96,6 +96,25 @@ namespace Trie
             return (pCrawl != null && pCrawl.isEndOfWord);
         }
 
+        private void addWeight(String key)
+        {
+            int level;
+            int length = key.Length;
+            TrieNode pCrawl = root;
+
+            for (level = 0; level < length; level++)
+            {
+                if (!pCrawl.children.ContainsKey(key[level]))
+                    return;
+
+                pCrawl = pCrawl.children[key[level]];
+            }
+            if (pCrawl != null && pCrawl.isEndOfWord)
+            {
+                pCrawl.weight++;
+            }
+        }
+
         // basically autocomplete
         private void searchAll(String key)
         {
@@ -103,7 +122,6 @@ namespace Trie
 
             int level;
             int length = key.Length;
-            int index;
             TrieNode pCrawl = root;
 
             //for (level = 0; level < length; level++)
@@ -123,8 +141,10 @@ namespace Trie
 
                 pCrawl = pCrawl.children[key[level]];
             }
-
-            found.Add(key);
+            if (pCrawl.isEndOfWord)
+            {
+                found.Add(key, pCrawl.weight);
+            }            
             searchNode(key, pCrawl);
 
             //return ret;
@@ -151,7 +171,7 @@ namespace Trie
             {
                 if (item.Value.isEndOfWord)
                 {
-                    found.Add(builder + item.Key.ToString());
+                    found.Add(builder + item.Key.ToString(), item.Value.weight);
                     searchNode(builder + item.Key.ToString(), item.Value);
                 } else
                 {
@@ -200,7 +220,7 @@ namespace Trie
 
             //keys = null;
             string line = "";
-            found = new List<string>();
+            found = new Dictionary<string, int>();
             do
             {
                 //read a complete line
@@ -209,6 +229,7 @@ namespace Trie
                 //check if line is empty or not
                 if (c == '\r')
                 {
+                    addWeight(line);
                     Console.Clear();
                     Console.WriteLine("Searching: ");
                     line = "";
@@ -219,11 +240,17 @@ namespace Trie
                     var test = found;
                     Console.Clear();
                     Console.WriteLine("Searching: " + line);
-                    int count = 0;
-                    foreach (var item in found)
+                    Console.WriteLine(found.Count + " found");
+                    int count = 0;                
+                    foreach (var item in found.OrderByDescending(x => x.Value))
                     {
                         if (count == 20) break;
-                        Console.WriteLine(item);
+                        string ln = item.Key;
+                        if (item.Value > 0)
+                        {
+                            ln += " (suggested)";
+                        }
+                        Console.WriteLine(ln);
                         count++;
                     }
                     //Console.Write("Line was = " + line);

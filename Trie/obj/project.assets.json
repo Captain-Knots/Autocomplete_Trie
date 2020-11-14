@@ -8,35 +8,32 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\Brett\\.nuget\\packages\\": {},
-    "c:\\program files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/Users/brettduncan/.nuget/packages/": {},
+    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Brett\\source\\repos\\Trie\\Trie\\Trie.csproj",
+      "projectUniqueName": "/Users/brettduncan/Projects/Autocomplete_Trie/Trie/Trie.csproj",
       "projectName": "Trie",
-      "projectPath": "C:\\Users\\Brett\\source\\repos\\Trie\\Trie\\Trie.csproj",
-      "packagesPath": "C:\\Users\\Brett\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Brett\\source\\repos\\Trie\\Trie\\obj\\",
+      "projectPath": "/Users/brettduncan/Projects/Autocomplete_Trie/Trie/Trie.csproj",
+      "packagesPath": "/Users/brettduncan/.nuget/packages/",
+      "outputPath": "/Users/brettduncan/Projects/Autocomplete_Trie/Trie/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "c:\\program files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Brett\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/brettduncan/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -48,7 +45,6 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
-        "targetAlias": "netcoreapp3.1",
         "imports": [
           "net461",
           "net462",
@@ -59,12 +55,9 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "frameworkReferences": {
-          "Microsoft.NETCore.App": {
-            "privateAssets": "all"
-          }
-        },
-        "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+        "frameworkReferences": [
+          "Microsoft.NETCore.App"
+        ]
       }
     }
   }
